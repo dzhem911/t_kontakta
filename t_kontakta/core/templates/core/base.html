@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> The title</title>
+</head>
+<body>
+{% for product in queryset %}
+<div class="product">
+     {{ product.producer }}
+    </br>
+    {% for photo in qphoto %}
+    <img src="{{ photo.photo }}">
+    {{ photo.photo }}
+    {% endfor %}
+
+</div>
+{% endfor %}
+</body>
+</html>
