@@ -1,0 +1,22 @@
+{% extends "core/base.html" %}
+
+{% block title %} Hello world {% endblock %}
+
+{% block content %}
+
+{% for product in queryset %}
+<div class="product">
+     {{ product.producer }}
+    </br>
+
+    {% for photo in product.photos_name.all %}
+    {% if photo.photo %}
+    <img src="{{ photo.photo.url }}">
+    {{ photo.photo.path }}
+    {% endif %}
+    {% endfor %}
+
+</div>
+{% endfor %}
+
+{% endblock %}

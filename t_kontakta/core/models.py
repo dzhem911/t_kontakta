@@ -19,7 +19,7 @@ class Category(models.Model):
 
 
 class Photo(models.Model):
-    name = models.ForeignKey('Tires', on_delete=models.SET_NULL, null=True)
+    name = models.ForeignKey('Tires', on_delete=models.SET_NULL, null=True, related_name='photos_name')
     photo = models.ImageField(upload_to='media/')
 
     class Meta:
@@ -27,7 +27,7 @@ class Photo(models.Model):
         verbose_name_plural = 'Фото'
 
     def __str__(self):
-        return self.photo_url
+        return self.photo.url
 
     @property
     def photo_url(self):
@@ -43,7 +43,7 @@ class Tires(models.Model):
     available = models.BooleanField(default=True)
     stock = models.PositiveIntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
-    status = models.PositiveSmallIntegerField(verbose_name="Процент износа (для новых значение 0)") # (новые (0%) или с износом)
+    status = models.PositiveSmallIntegerField(verbose_name="Процент износа (для новых значение 0)")
     radius = models.PositiveSmallIntegerField()
     weidth = models.PositiveSmallIntegerField()
     profile = models.PositiveSmallIntegerField()
@@ -57,3 +57,6 @@ class Tires(models.Model):
 
     def __str__(self):
         return f'{self.producer} - {self.tire_model}'
+
+    def render_photo_url(self):
+        return Photo.photo.url

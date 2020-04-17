@@ -3,19 +3,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title> The title</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}" type="text/css"/>
+    <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-{% for product in queryset %}
-<div class="product">
-     {{ product.producer }}
-    </br>
-    {% for photo in qphoto %}
-    <img src="{{ photo.photo }}">
-    {{ photo.photo }}
-    {% endfor %}
-
-</div>
-{% endfor %}
+{% block content %}
+{% endblock %}
 </body>
 </html>

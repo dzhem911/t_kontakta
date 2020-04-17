@@ -10,4 +10,4 @@ def BootstrapFilterView(request):
         'qphoto': qs_photo,
     }
 
-    return render(request, 'core/base.html', context)
+    return render(request, 'core/product_list.html', context)
