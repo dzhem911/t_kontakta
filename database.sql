@@ -1,4 +1,3 @@
-Password: 
 --
 -- PostgreSQL database dump
 --
@@ -646,7 +645,7 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 --
 
 COPY public.auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
-1	pbkdf2_sha256$180000$OKNN7d4fqWrV$D5034uCJ5BkwPgwCfxU9cbB1ZczTmKIpZY0wG5Ge5g8=	2020-04-13 14:39:03.139601+00	t	dzhem911			dzhemal911@mail.ru	t	t	2020-04-13 11:34:13.071357+00
+1	pbkdf2_sha256$180000$OKNN7d4fqWrV$D5034uCJ5BkwPgwCfxU9cbB1ZczTmKIpZY0wG5Ge5g8=	2020-04-15 13:37:48.26775+00	t	dzhem911			dzhemal911@mail.ru	t	t	2020-04-13 11:34:13.071357+00
 \.
 
 
@@ -680,7 +679,12 @@ COPY public.core_category (id, name, slug) FROM stdin;
 --
 
 COPY public.core_photo (id, photo, name_id) FROM stdin;
-2	media/blackmackintosh.png	123
+11	media/3875484845.jpg	898
+10	media/tire.png	1523
+9	media/103102-2.jpg	564
+12	media/guitar_34-wallpaper-2560x1080.jpg	898
+13	media/37575_56661_EgpWTaG.jpg	123
+14	media/download.jpg	455456
 \.
 
 
@@ -689,7 +693,11 @@ COPY public.core_photo (id, photo, name_id) FROM stdin;
 --
 
 COPY public.core_tires (vencode, slug, price, available, stock, created_at, status, radius, weidth, profile, seasone, producer, tire_model) FROM stdin;
+1523	1523	2300.00	t	1500	2020-04-16 20:01:41.068463+00	70	16	70	225	Летняя	Nokian	Armaniac
+564	564	2500.00	t	20	2020-04-16 19:59:03.512621+00	5	19	270	115	Всесезонная	Nokian	OnePlus
+898	898	5400.00	t	13	2020-04-17 12:13:16.51759+00	25	18	230	80	Всесезонная	Hankook	Rognarek
 123	123	4200.00	t	6	2020-04-13 14:42:04.731358+00	15	17	65	225	Летняя	Bridgestone	Continental
+455456	455456	12000.00	t	23	2020-04-17 12:55:01.115801+00	25	17	88	210	Летняя	Hankook	Pushka
 \.
 
 
@@ -699,6 +707,10 @@ COPY public.core_tires (vencode, slug, price, available, stock, created_at, stat
 
 COPY public.core_tires_category (id, tires_id, category_id) FROM stdin;
 1	123	1
+2	564	1
+3	1523	1
+4	898	1
+5	455456	1
 \.
 
 
@@ -713,6 +725,35 @@ COPY public.django_admin_log (id, action_time, object_id, object_repr, action_fl
 4	2020-04-13 14:48:36.230639+00	1	/media/media/download.jpeg	2	[{"changed": {"fields": ["Photo"]}}]	9	1
 5	2020-04-13 15:16:37.199336+00	1	/media/media/download.jpeg	3		9	1
 6	2020-04-13 15:16:50.039316+00	2	/media/media/blackmackintosh.png	1	[{"added": {}}]	9	1
+7	2020-04-16 09:24:27.750673+00	4	Photo object (4)	1	[{"added": {}}]	9	1
+8	2020-04-16 15:52:30.022623+00	4	Photo object (4)	2	[{"changed": {"fields": ["\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u0438"]}}]	9	1
+9	2020-04-16 19:55:06.668981+00	4	Photo object (4)	3		9	1
+10	2020-04-16 19:55:06.676265+00	2	Photo object (2)	3		9	1
+11	2020-04-16 19:59:03.74351+00	564	Nokian - OnePlus	1	[{"added": {}}, {"added": {"name": "\\u0424\\u043e\\u0442\\u043e", "object": "Photo object (5)"}}, {"added": {"name": "\\u0424\\u043e\\u0442\\u043e", "object": "Photo object (6)"}}]	8	1
+12	2020-04-16 20:01:41.087245+00	1523	Nokian - Armaniac	1	[{"added": {}}, {"added": {"name": "\\u0424\\u043e\\u0442\\u043e", "object": "Photo object (7)"}}]	8	1
+13	2020-04-17 11:00:01.384054+00	5	Photo object (5)	2	[{"changed": {"fields": ["Name", "\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u0438"]}}]	9	1
+14	2020-04-17 11:00:35.9511+00	5	Photo object (5)	2	[{"changed": {"fields": ["\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u0438"]}}]	9	1
+15	2020-04-17 11:01:48.947257+00	7	Photo object (7)	3		9	1
+16	2020-04-17 11:01:48.958437+00	6	Photo object (6)	3		9	1
+17	2020-04-17 11:01:48.963419+00	5	Photo object (5)	3		9	1
+18	2020-04-17 11:02:10.815445+00	8	Photo object (8)	1	[{"added": {}}]	9	1
+19	2020-04-17 11:03:27.707337+00	8	Photo object (8)	2	[{"changed": {"fields": ["\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u0438"]}}]	9	1
+20	2020-04-17 11:28:08.775297+00	8	Photo object (8)	2	[{"changed": {"fields": ["\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u0438"]}}]	9	1
+21	2020-04-17 11:33:16.857518+00	9	Photo object (9)	1	[{"added": {}}]	9	1
+22	2020-04-17 11:33:28.762743+00	10	Photo object (10)	1	[{"added": {}}]	9	1
+23	2020-04-17 11:38:13.820059+00	10	Photo object (10)	2	[{"changed": {"fields": ["\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u0438"]}}]	9	1
+24	2020-04-17 11:40:01.246165+00	10	Photo object (10)	2	[{"changed": {"fields": ["\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u0438"]}}]	9	1
+25	2020-04-17 12:13:16.525614+00	898	Hankook - Rognarek	1	[{"added": {}}, {"added": {"name": "\\u0424\\u043e\\u0442\\u043e", "object": "Photo object (11)"}}]	8	1
+26	2020-04-17 12:18:52.451116+00	1523	Nokian - Armaniac	2	[{"changed": {"name": "\\u0424\\u043e\\u0442\\u043e", "object": "Photo object (10)", "fields": ["Photo"]}}]	8	1
+27	2020-04-17 12:19:40.7836+00	564	Nokian - OnePlus	2	[{"changed": {"name": "\\u0424\\u043e\\u0442\\u043e", "object": "Photo object (9)", "fields": ["Photo"]}}]	8	1
+28	2020-04-17 12:20:17.214246+00	8	Photo object (8)	2	[{"changed": {"fields": ["\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u0438"]}}]	9	1
+29	2020-04-17 12:27:43.606736+00	8	Photo object (8)	2	[{"changed": {"fields": ["\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u0438"]}}]	9	1
+30	2020-04-17 12:28:49.320535+00	123	Bridgestone - Continental	2	[{"changed": {"name": "\\u0424\\u043e\\u0442\\u043e", "object": "Photo object (8)", "fields": ["Photo"]}}]	8	1
+31	2020-04-17 12:33:27.971363+00	8	Photo object (8)	2	[{"changed": {"fields": ["\\u0424\\u043e\\u0442\\u043e\\u0433\\u0440\\u0430\\u0444\\u0438\\u0438"]}}]	9	1
+32	2020-04-17 12:35:47.821256+00	123	Bridgestone - Continental	2	[{"deleted": {"name": "\\u0424\\u043e\\u0442\\u043e", "object": "Photo object (None)"}}]	8	1
+33	2020-04-17 12:39:02.146327+00	898	Hankook - Rognarek	2	[{"added": {"name": "\\u0424\\u043e\\u0442\\u043e", "object": "/media/media/guitar_34-wallpaper-2560x1080.jpg"}}]	8	1
+34	2020-04-17 12:53:10.847714+00	123	Bridgestone - Continental	2	[{"added": {"name": "\\u0424\\u043e\\u0442\\u043e", "object": "/media/media/37575_56661_EgpWTaG.jpg"}}]	8	1
+35	2020-04-17 12:55:01.126867+00	455456	Hankook - Pushka	1	[{"added": {}}, {"added": {"name": "\\u0424\\u043e\\u0442\\u043e", "object": "/media/media/download.jpg"}}]	8	1
 \.
 
 
@@ -756,6 +797,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 16	auth	0011_update_proxy_permissions	2020-04-13 11:31:42.026739+00
 17	sessions	0001_initial	2020-04-13 11:31:42.06305+00
 18	core	0001_initial	2020-04-13 14:37:44.623467+00
+19	core	0002_auto_20200417_2351	2020-04-17 20:51:43.623215+00
 \.
 
 
@@ -765,6 +807,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 
 COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
 bzoq23bc9cqx364bxuwqo1f6s5ro5yjk	ODQ3NTAyNmYzMTlmMmVhYTk1N2Y4YzZkODMzN2I3MDY0NTk0ZDYwYTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI2M2FhM2I2YTFmYjcwMjE4Nzk4YzM4MTI3NDdiMDZjMTE1ZWU1MzUyIn0=	2020-04-27 14:39:03.146967+00
+yo0uf31y2247tdsbv7vdn9wiougfncx0	ODQ3NTAyNmYzMTlmMmVhYTk1N2Y4YzZkODMzN2I3MDY0NTk0ZDYwYTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI2M2FhM2I2YTFmYjcwMjE4Nzk4YzM4MTI3NDdiMDZjMTE1ZWU1MzUyIn0=	2020-04-29 13:37:48.274076+00
 \.
 
 
@@ -821,21 +864,21 @@ SELECT pg_catalog.setval('public.core_category_id_seq', 1, true);
 -- Name: core_photo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.core_photo_id_seq', 2, true);
+SELECT pg_catalog.setval('public.core_photo_id_seq', 14, true);
 
 
 --
 -- Name: core_tires_category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.core_tires_category_id_seq', 1, true);
+SELECT pg_catalog.setval('public.core_tires_category_id_seq', 5, true);
 
 
 --
 -- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.django_admin_log_id_seq', 6, true);
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 35, true);
 
 
 --
@@ -849,7 +892,7 @@ SELECT pg_catalog.setval('public.django_content_type_id_seq', 9, true);
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 18, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 19, true);
 
 
 --
