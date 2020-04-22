@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+INTERNAL_IPS = ['*']
 
 # Application definition
 
@@ -40,7 +41,10 @@ INSTALLED_APPS = [
 ]
 
 INSTALLED_APPS += [
-    'core.apps.CoreConfig'
+    'core.apps.CoreConfig',
+    'cart.apps.CartConfig',
+    'orders.apps.OrdersConfig',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -51,6 +55,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+MIDDLEWARE += [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 't_kontakta.urls'
@@ -66,6 +74,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'cart.context_processors.cart',
             ],
         },
     },
@@ -134,3 +143,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, '/media/')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static/')
 ]
+
+CART_SESSION_ID = 'cart'

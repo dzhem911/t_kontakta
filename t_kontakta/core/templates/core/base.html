@@ -7,6 +7,19 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
+<div class="cart">
+    {% with total_items=cart|length %}
+        {% if cart|length > 0 %}
+            В корзине :
+            <a href="{% url "cart:cart_detail" %}">
+                {{ total_items }} item{{ total_items|pluralize }},
+                {{ cart.get_total_price }} руб.
+            </a>
+        {% else %}
+            В корзине пока ничего нет
+        {% endif %}
+    {% endwith %}
+</div>
 {% block content %}
 {% endblock %}
 </body>

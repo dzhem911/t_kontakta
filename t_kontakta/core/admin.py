@@ -1,6 +1,5 @@
 from django.contrib import admin
 from .models import Tires, Category, Photo
-from .forms import PhotosForm
 
 class PhotoAdmin(admin.StackedInline):
     model = Photo
@@ -16,5 +15,7 @@ class TiresAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('vencode',)}
     exclude = ['available']
     inlines = [PhotoAdmin]
+    list_display = ['producer', 'tire_model', 'price', 'stock']
+    list_editable = ['price', 'stock']
 
 admin.site.register(Tires, TiresAdmin)

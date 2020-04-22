@@ -1,0 +1,16 @@
+{% extends "core/base.html" %}
+
+{% block title %} {{ tires.producer }} - {{ tires.tire_model }} {% endblock %}
+
+{% block content %}
+{{ tires.producer }} - {{ tires.tire_model }}
+<br/>
+<p> Цена - {{ tires.price }} </p>
+Радуис - {{ tires.radius }}
+
+<form action="{% url "cart:cart_add" tires.vencode %}" method="post" enctype="multipart/form-data">
+    {{ form }}
+    {% csrf_token %}
+    <input type="submit" value="Add to cart">
+</form>
+{% endblock %}

@@ -1,20 +1,23 @@
 {% extends "core/base.html" %}
 
-{% block title %} Hello world {% endblock %}
+{% block title %} Главная Т-Контакта {% endblock %}
 
 {% block content %}
 
 {% for product in queryset %}
 <div class="product">
-     {{ product.producer }}
+     <a href="{{ product.get_absolute_url }}">
+         {{ product.producer }} - {{ product.tire_model }}
+     </a>
     </br>
 
     {% for photo in product.photos_name.all %}
-    {% if photo.photo %}
     <img src="{{ photo.photo.url }}">
-    {{ photo.photo.path }}
-    {% endif %}
     {% endfor %}
+    </br>
+    Цена - {{ product.price }}
+    </br>
+    В наличии - {{ product.stock }} шт.
 
 </div>
 {% endfor %}

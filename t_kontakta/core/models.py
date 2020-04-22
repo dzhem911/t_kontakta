@@ -29,15 +29,10 @@ class Photo(models.Model):
     def __str__(self):
         return self.photo.url
 
-    @property
-    def photo_url(self):
-        if self.photo and hasattr(self.photo, 'url'):
-            return self.photo.url
-
 
 class Tires(models.Model):
     vencode = models.CharField('Артикул', max_length=100, primary_key=True)
-    slug = models.SlugField(max_length=100, db_index=True)
+    slug = models.SlugField(max_length=100, db_index=True, verbose_name='Ссылка')
     price = models.DecimalField('Цена', max_digits=20, decimal_places=2)
     category = models.ManyToManyField(Category)
     available = models.BooleanField(default=True)
@@ -58,5 +53,6 @@ class Tires(models.Model):
     def __str__(self):
         return f'{self.producer} - {self.tire_model}'
 
-    def render_photo_url(self):
-        return Photo.photo.url
+
+    def get_absolute_url(self):
+        return reverse('core:product_detail', args=[str(self.slug)])

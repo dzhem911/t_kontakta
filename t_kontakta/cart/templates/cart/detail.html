@@ -1,0 +1,48 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}
+    Корзина
+{% endblock %}
+{% block content %}
+
+
+<tbody>
+        {% for item in cart %}
+        <div>
+        {% with product=item.product %}
+                <tr>
+                    <td>
+                        <a href="{{ product.get_absolute_url }}">
+                            {% for photo in product.photos_name.all %}
+                                <img src="{{ photo.photo.url }}">
+                            {% endfor %}
+                        </a>
+                        <br/>
+                    </td>
+                    <td>{{ product.producer }} - {{ product.tire_model }}</td>
+                    <br/>
+                    <td>Предметов в корзине - {{ item.quantity }}</td>
+                    <br/>
+                    <td><a href="{% url "cart:cart_remove" product.vencode %}">Удалить</a></td>
+                    <br/>
+                    <td class="num">Цена за единицу - {{ item.price }} руб.</td>
+                    <br/>
+                    <td class="num">Итого - {{ item.total_price }} руб.</td>
+                </tr>
+            {% endwith %}
+            </div>
+        {% endfor %}
+        <tr class="total">
+            <td>Общая сумма заказа</td>
+            <td colspan="4"></td>
+            <br/>
+            <td class="num">{{ cart.get_total_price }} руб. </td>
+        </tr>
+
+<a href="{% url "orders:order_create" %}" class="button">
+    Оформить заказ
+</a>
+        </tbody>
+
+
+{% endblock %}
