@@ -3,24 +3,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <!-- for universe rendering with smartphones-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'styles.css' %}" type="text/css"/>
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-<div class="cart">
-    {% with total_items=cart|length %}
-        {% if cart|length > 0 %}
-            В корзине :
-            <a href="{% url "cart:cart_detail" %}">
-                {{ total_items }} item{{ total_items|pluralize }},
-                {{ cart.get_total_price }} руб.
-            </a>
-        {% else %}
-            В корзине пока ничего нет
-        {% endif %}
-    {% endwith %}
-</div>
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd">
+        <a href="{% url "core:products" %}" class="navbar-brand">LOGO</a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active"><a class="nav-link" href="{% url "core:products" %}">Главная</a></li>
+                    <li><a class="nav-link" href="#">О нас</a></li>
+                    <li><a class="nav-link" href="#">Обратная связь</a></li>
+                </ul>
+            {% with total_items=cart|length %}
+            {% if cart|length > 0 %}
+                В корзине :
+                <a href="{% url "cart:cart_detail" %}">
+                    {{ total_items }} item{{ total_items|pluralize }},
+                    {{ cart.get_total_price }} руб.
+                </a>
+            {% else %}
+                В корзине пока ничего нет
+            {% endif %}
+            {% endwith %}
+
+        </div>
+    </nav>
+
 {% block content %}
 {% endblock %}
+</div>
 </body>
 </html>

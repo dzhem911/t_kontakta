@@ -497,6 +497,86 @@ CREATE TABLE public.django_session (
 ALTER TABLE public.django_session OWNER TO postgres;
 
 --
+-- Name: orders_order; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.orders_order (
+    id integer NOT NULL,
+    first_name character varying(50) NOT NULL,
+    last_name character varying(50) NOT NULL,
+    email character varying(254) NOT NULL,
+    address character varying(250) NOT NULL,
+    postal_code character varying(20) NOT NULL,
+    city character varying(100) NOT NULL,
+    created timestamp with time zone NOT NULL,
+    updated timestamp with time zone NOT NULL,
+    paid boolean NOT NULL
+);
+
+
+ALTER TABLE public.orders_order OWNER TO postgres;
+
+--
+-- Name: orders_order_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.orders_order_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.orders_order_id_seq OWNER TO postgres;
+
+--
+-- Name: orders_order_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.orders_order_id_seq OWNED BY public.orders_order.id;
+
+
+--
+-- Name: orders_orderitem; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.orders_orderitem (
+    id integer NOT NULL,
+    price numeric(10,2) NOT NULL,
+    quantity integer NOT NULL,
+    order_id integer,
+    product_id character varying(100),
+    CONSTRAINT orders_orderitem_quantity_check CHECK ((quantity >= 0))
+);
+
+
+ALTER TABLE public.orders_orderitem OWNER TO postgres;
+
+--
+-- Name: orders_orderitem_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.orders_orderitem_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.orders_orderitem_id_seq OWNER TO postgres;
+
+--
+-- Name: orders_orderitem_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.orders_orderitem_id_seq OWNED BY public.orders_orderitem.id;
+
+
+--
 -- Name: auth_group id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -581,6 +661,20 @@ ALTER TABLE ONLY public.django_migrations ALTER COLUMN id SET DEFAULT nextval('p
 
 
 --
+-- Name: orders_order id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.orders_order ALTER COLUMN id SET DEFAULT nextval('public.orders_order_id_seq'::regclass);
+
+
+--
+-- Name: orders_orderitem id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.orders_orderitem ALTER COLUMN id SET DEFAULT nextval('public.orders_orderitem_id_seq'::regclass);
+
+
+--
 -- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -637,6 +731,14 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 34	Can change photo	9	change_photo
 35	Can delete photo	9	delete_photo
 36	Can view photo	9	view_photo
+37	Can add Заказ	10	add_order
+38	Can change Заказ	10	change_order
+39	Can delete Заказ	10	delete_order
+40	Can view Заказ	10	view_order
+41	Can add order item	11	add_orderitem
+42	Can change order item	11	change_orderitem
+43	Can delete order item	11	delete_orderitem
+44	Can view order item	11	view_orderitem
 \.
 
 
@@ -645,7 +747,7 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 --
 
 COPY public.auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
-1	pbkdf2_sha256$180000$OKNN7d4fqWrV$D5034uCJ5BkwPgwCfxU9cbB1ZczTmKIpZY0wG5Ge5g8=	2020-04-15 13:37:48.26775+00	t	dzhem911			dzhemal911@mail.ru	t	t	2020-04-13 11:34:13.071357+00
+1	pbkdf2_sha256$180000$OKNN7d4fqWrV$D5034uCJ5BkwPgwCfxU9cbB1ZczTmKIpZY0wG5Ge5g8=	2020-04-19 11:18:26.974727+00	t	dzhem911			dzhemal911@mail.ru	t	t	2020-04-13 11:34:13.071357+00
 \.
 
 
@@ -671,6 +773,7 @@ COPY public.auth_user_user_permissions (id, user_id, permission_id) FROM stdin;
 
 COPY public.core_category (id, name, slug) FROM stdin;
 1	Шины	shiny
+2	Диски	diski
 \.
 
 
@@ -683,8 +786,9 @@ COPY public.core_photo (id, photo, name_id) FROM stdin;
 10	media/tire.png	1523
 9	media/103102-2.jpg	564
 12	media/guitar_34-wallpaper-2560x1080.jpg	898
-13	media/37575_56661_EgpWTaG.jpg	123
 14	media/download.jpg	455456
+15	media/disk-1.jpg	disk-1
+13	media/37575_56661_EgpWTaG.jpg_.jpg	123
 \.
 
 
@@ -693,11 +797,13 @@ COPY public.core_photo (id, photo, name_id) FROM stdin;
 --
 
 COPY public.core_tires (vencode, slug, price, available, stock, created_at, status, radius, weidth, profile, seasone, producer, tire_model) FROM stdin;
-1523	1523	2300.00	t	1500	2020-04-16 20:01:41.068463+00	70	16	70	225	Летняя	Nokian	Armaniac
 564	564	2500.00	t	20	2020-04-16 19:59:03.512621+00	5	19	270	115	Всесезонная	Nokian	OnePlus
 898	898	5400.00	t	13	2020-04-17 12:13:16.51759+00	25	18	230	80	Всесезонная	Hankook	Rognarek
-123	123	4200.00	t	6	2020-04-13 14:42:04.731358+00	15	17	65	225	Летняя	Bridgestone	Continental
+8218	8218	1350.00	t	4	2020-04-19 11:19:23.482879+00	55	15	90	210	Зимняя	АРТ	ЗС-1
 455456	455456	12000.00	t	23	2020-04-17 12:55:01.115801+00	25	17	88	210	Летняя	Hankook	Pushka
+1523	1523	2300.00	t	150	2020-04-16 20:01:41.068463+00	70	16	70	225	Летняя	Nokian	Armaniac
+disk-1	disk-1	2500.00	t	6	2020-04-19 23:07:58.253683+00	0	17	110	210	Летняя	СеверМаш	Ном-1
+123	123	4200.00	t	6	2020-04-13 14:42:04.731358+00	15	17	65	225	Летняя	Bridgestone	Continental
 \.
 
 
@@ -711,6 +817,8 @@ COPY public.core_tires_category (id, tires_id, category_id) FROM stdin;
 3	1523	1
 4	898	1
 5	455456	1
+6	8218	1
+7	disk-1	2
 \.
 
 
@@ -754,6 +862,15 @@ COPY public.django_admin_log (id, action_time, object_id, object_repr, action_fl
 33	2020-04-17 12:39:02.146327+00	898	Hankook - Rognarek	2	[{"added": {"name": "\\u0424\\u043e\\u0442\\u043e", "object": "/media/media/guitar_34-wallpaper-2560x1080.jpg"}}]	8	1
 34	2020-04-17 12:53:10.847714+00	123	Bridgestone - Continental	2	[{"added": {"name": "\\u0424\\u043e\\u0442\\u043e", "object": "/media/media/37575_56661_EgpWTaG.jpg"}}]	8	1
 35	2020-04-17 12:55:01.126867+00	455456	Hankook - Pushka	1	[{"added": {}}, {"added": {"name": "\\u0424\\u043e\\u0442\\u043e", "object": "/media/media/download.jpg"}}]	8	1
+36	2020-04-19 11:19:23.52788+00	8218	АРТ - ЗС-1	1	[{"added": {}}]	8	1
+37	2020-04-19 11:39:14.283899+00	455456	Hankook - Pushka	2	[{"changed": {"fields": ["Available"]}}]	8	1
+38	2020-04-19 11:47:33.448681+00	455456	Hankook - Pushka	2	[{"changed": {"fields": ["Available"]}}]	8	1
+39	2020-04-19 11:48:18.828633+00	1523	Nokian - Armaniac	2	[{"changed": {"fields": ["Stock"]}}]	8	1
+40	2020-04-19 16:17:58.006405+00	123	Bridgestone - Continental	2	[{"changed": {"name": "\\u0424\\u043e\\u0442\\u043e", "object": "/media/media/37575_56661_EgpWTaG.jpg_.jpg", "fields": ["Photo"]}}]	8	1
+41	2020-04-19 23:04:43.107+00	2	Диски	1	[{"added": {}}]	7	1
+42	2020-04-19 23:07:58.321748+00	disk-1	СеверМаш - Ном-1	1	[{"added": {}}, {"added": {"name": "\\u0424\\u043e\\u0442\\u043e", "object": "/media/media/disk-1.jpg"}}]	8	1
+43	2020-04-20 04:44:13.308806+00	disk-1	СеверМаш - Ном-1	2	[{"changed": {"name": "\\u0424\\u043e\\u0442\\u043e", "object": "/media/media/disk-1.jpg", "fields": ["Photo"]}}]	8	1
+44	2020-04-20 04:45:10.693199+00	123	Bridgestone - Continental	2	[{"changed": {"name": "\\u0424\\u043e\\u0442\\u043e", "object": "/media/media/37575_56661_EgpWTaG.jpg_.jpg", "fields": ["Photo"]}}]	8	1
 \.
 
 
@@ -771,6 +888,8 @@ COPY public.django_content_type (id, app_label, model) FROM stdin;
 7	core	category
 8	core	tires
 9	core	photo
+10	orders	order
+11	orders	orderitem
 \.
 
 
@@ -798,6 +917,8 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 17	sessions	0001_initial	2020-04-13 11:31:42.06305+00
 18	core	0001_initial	2020-04-13 14:37:44.623467+00
 19	core	0002_auto_20200417_2351	2020-04-17 20:51:43.623215+00
+20	core	0003_auto_20200419_1735	2020-04-19 14:35:36.946017+00
+21	orders	0001_initial	2020-04-19 14:35:37.06746+00
 \.
 
 
@@ -806,8 +927,25 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 --
 
 COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
-bzoq23bc9cqx364bxuwqo1f6s5ro5yjk	ODQ3NTAyNmYzMTlmMmVhYTk1N2Y4YzZkODMzN2I3MDY0NTk0ZDYwYTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI2M2FhM2I2YTFmYjcwMjE4Nzk4YzM4MTI3NDdiMDZjMTE1ZWU1MzUyIn0=	2020-04-27 14:39:03.146967+00
 yo0uf31y2247tdsbv7vdn9wiougfncx0	ODQ3NTAyNmYzMTlmMmVhYTk1N2Y4YzZkODMzN2I3MDY0NTk0ZDYwYTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI2M2FhM2I2YTFmYjcwMjE4Nzk4YzM4MTI3NDdiMDZjMTE1ZWU1MzUyIn0=	2020-04-29 13:37:48.274076+00
+kv9gqj9778oats3k6spvf6cnbnoo8mux	MDRiZDFhNDQzMTI2Mjk2ZDZiOWQ0NjFlM2EyMDVlYjI4NWZhNDUyZjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI2M2FhM2I2YTFmYjcwMjE4Nzk4YzM4MTI3NDdiMDZjMTE1ZWU1MzUyIiwiY2FydCI6eyI0NTU0NTYiOnsicXVhbnRpdHkiOjEsInByaWNlIjoiMTIwMDAuMDAifSwiODk4Ijp7InF1YW50aXR5IjoyLCJwcmljZSI6IjU0MDAuMDAifX19	2020-05-03 16:31:40.855505+00
+bzoq23bc9cqx364bxuwqo1f6s5ro5yjk	OGNlNjdlNjM2MTM5NGI5ZjA0YWQyMWU4M2Y1NmUxYTI0YTYxZTg1OTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI2M2FhM2I2YTFmYjcwMjE4Nzk4YzM4MTI3NDdiMDZjMTE1ZWU1MzUyIiwiY2FydCI6e319	2020-05-04 05:20:02.103426+00
+\.
+
+
+--
+-- Data for Name: orders_order; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.orders_order (id, first_name, last_name, email, address, postal_code, city, created, updated, paid) FROM stdin;
+\.
+
+
+--
+-- Data for Name: orders_orderitem; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.orders_orderitem (id, price, quantity, order_id, product_id) FROM stdin;
 \.
 
 
@@ -829,7 +967,7 @@ SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
 -- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.auth_permission_id_seq', 36, true);
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 44, true);
 
 
 --
@@ -857,42 +995,56 @@ SELECT pg_catalog.setval('public.auth_user_user_permissions_id_seq', 1, false);
 -- Name: core_category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.core_category_id_seq', 1, true);
+SELECT pg_catalog.setval('public.core_category_id_seq', 2, true);
 
 
 --
 -- Name: core_photo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.core_photo_id_seq', 14, true);
+SELECT pg_catalog.setval('public.core_photo_id_seq', 15, true);
 
 
 --
 -- Name: core_tires_category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.core_tires_category_id_seq', 5, true);
+SELECT pg_catalog.setval('public.core_tires_category_id_seq', 7, true);
 
 
 --
 -- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.django_admin_log_id_seq', 35, true);
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 44, true);
 
 
 --
 -- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.django_content_type_id_seq', 9, true);
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 11, true);
 
 
 --
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 19, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 21, true);
+
+
+--
+-- Name: orders_order_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.orders_order_id_seq', 1, false);
+
+
+--
+-- Name: orders_orderitem_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.orders_orderitem_id_seq', 1, false);
 
 
 --
@@ -1080,6 +1232,22 @@ ALTER TABLE ONLY public.django_session
 
 
 --
+-- Name: orders_order orders_order_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.orders_order
+    ADD CONSTRAINT orders_order_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: orders_orderitem orders_orderitem_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.orders_orderitem
+    ADD CONSTRAINT orders_orderitem_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: auth_group_name_a6ea08ec_like; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1248,6 +1416,27 @@ CREATE INDEX django_session_session_key_c0390e0f_like ON public.django_session U
 
 
 --
+-- Name: orders_orderitem_order_id_fe61a34d; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX orders_orderitem_order_id_fe61a34d ON public.orders_orderitem USING btree (order_id);
+
+
+--
+-- Name: orders_orderitem_product_id_afe4254a; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX orders_orderitem_product_id_afe4254a ON public.orders_orderitem USING btree (product_id);
+
+
+--
+-- Name: orders_orderitem_product_id_afe4254a_like; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX orders_orderitem_product_id_afe4254a_like ON public.orders_orderitem USING btree (product_id varchar_pattern_ops);
+
+
+--
 -- Name: auth_group_permissions auth_group_permissio_permission_id_84c5c92e_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1341,6 +1530,22 @@ ALTER TABLE ONLY public.django_admin_log
 
 ALTER TABLE ONLY public.django_admin_log
     ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: orders_orderitem orders_orderitem_order_id_fe61a34d_fk_orders_order_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.orders_orderitem
+    ADD CONSTRAINT orders_orderitem_order_id_fe61a34d_fk_orders_order_id FOREIGN KEY (order_id) REFERENCES public.orders_order(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: orders_orderitem orders_orderitem_product_id_afe4254a_fk_core_tires_vencode; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.orders_orderitem
+    ADD CONSTRAINT orders_orderitem_product_id_afe4254a_fk_core_tires_vencode FOREIGN KEY (product_id) REFERENCES public.core_tires(vencode) DEFERRABLE INITIALLY DEFERRED;
 
 
 --

@@ -5,5 +5,20 @@ img {
 
 div {
 
- border: thick double #32a1ce;
+ /*border: thick double #32a1ce;*/
 }
+
+a {
+    text-decoration: none;
+    color: black;
+}
+a:hover {
+    text-decoration: none;
+    color: grey;
+}
+
+#pagination {
+    clear: both;
+    margin-top: 150px;
+}
+
