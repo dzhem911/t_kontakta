@@ -53,6 +53,9 @@ class Tires(models.Model):
     def __str__(self):
         return f'{self.producer} - {self.tire_model}'
 
+    def __iter__(self):
+        pass
+
 
     def get_absolute_url(self):
         return reverse('core:product_detail', args=[str(self.slug)])

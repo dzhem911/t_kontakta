@@ -2,7 +2,7 @@ version: '3'
 
 services:
   web:
-    build: ./t_kontakta
+    image: dzhem911/tires_project_web_1 #./t_kontakta
     command: python3 manage.py runserver 0.0.0.0:8000
     volumes:
       - ./t_kontakta:/data
@@ -11,7 +11,7 @@ services:
     depends_on:
       - db
   db:
-    image: postgres
+    image: dzhem911/tires_project_db_1 #postgres
     restart: always
     environment:
       - POSTGRES_PASSWORD=password
