@@ -3,14 +3,6 @@ from django.conf import settings
 from core.models import Tires
 
 
-"""
-changed:
-    cart on basket - everywhere
-    product.id on product.vencode
-    product_id on product_vencode
-    product_ids on product_vencodes in method __iter__
-"""
-
 class Cart(object):
 
     def __init__(self, request):
@@ -36,6 +28,17 @@ class Cart(object):
             self.cart[product_vencode]['quantity'] = quantity
         else:
             self.cart[product_vencode]['quantity'] += quantity
+        self.save()
+
+    def update_quantity(self, product, quantity=None, update_quantity=False):
+        product_vencode = str(product.vencode)
+        if product_vencode not in self.cart:
+            self.cart[product_vencode] = {'quantity': 0,
+                                     'price': str(product.price)}
+        if update_quantity:
+            self.cart[product_vencode]['quantity'] = quantity
+        else:
+            self.cart[product_vencode]['quantity'] = quantity
         self.save()
 
     def save(self):

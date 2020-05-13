@@ -1,48 +1,85 @@
 {% extends "core/base.html" %}
 {% load static %}
+{% load bootstrap4 %}
+
 {% block title %}
     Корзина
 {% endblock %}
 {% block content %}
 
 
-<tbody>
-        {% for item in cart %}
-        <div>
+{% if cart|length < 1 %}
+    В корзине пока ничего нет. <br> Предлагаем <a href="{% url 'core:products' %}">вернуться к покупкам.</a>
+{% else %}
+    {% for item in cart %}
         {% with product=item.product %}
-                <tr>
-                    <td>
-                        <a href="{{ product.get_absolute_url }}">
+            <div class="card mb-3 border-secondary">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+
+                        <div id="carouselExampleControls{{ product.vencode }}" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                                {% for photo in product.photos_name.all %}
+                                    <li data-target="#carouselExampleControls{{ product.vencode }}" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %} class="active" {% endif %}></li>
+                                {% endfor %}
+                            </ol>
+                            <div class="carousel-inner">
                             {% for photo in product.photos_name.all %}
-                                <img src="{{ photo.photo.url }}">
+                                <div class="carousel-item {% if forloop.first %} active {% endif %}">
+                                    <img src="{{ photo.photo.url }}" class="card-img" alt="{{ product.tire_model }}">
+                                </div>
                             {% endfor %}
-                        </a>
-                        <br/>
-                    </td>
-                    <td>{{ product.producer }} - {{ product.tire_model }}</td>
-                    <br/>
-                    <td>Предметов в корзине - {{ item.quantity }}</td>
-                    <br/>
-                    <td><a href="{% url "cart:cart_remove" product.vencode %}">Удалить</a></td>
-                    <br/>
-                    <td class="num">Цена за единицу - {{ item.price }} руб.</td>
-                    <br/>
-                    <td class="num">Итого - {{ item.total_price }} руб.</td>
-                </tr>
-            {% endwith %}
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.producer }} - {{ product.tire_model }}</h5>
+                            <p class="card-text">
+                                Радуис - {{ product.radius }}<br>
+                                {% if product.status > 0 %}
+                                Износ - {{ product.status }} %<br>
+                                {% else %}
+                                Новые<br>
+                                {% endif %}
+                                Ширина/профиль - {{ product.weidth }}/{{ product.profile }}<br>
+                                {{ product.seasone }}
+                            </p>
+                            <p>
+                                Цена за единицу - {{ item.price }} руб.<br>
+                                Всего - {{ item.total_price }} руб.
+                            </p>
+                            <div>
+                                <form id="form_buying_product{{ product.vencode }}" action="{% url 'cart:cart_update_quantity' product.vencode %}" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <input type="number" class="form-group" name="quantity" id="number" placeholder="{{ item.quantity }}" min="1" value="{{ item.quantity }}"> шт.
+                                    <button type="submit" id="submit_btn" class="btn btn-success btn-buy"
+                                            data-tire_vencode="{{ product.vencode }}"
+                                            data-cart_quantity="{{ item.quantity }}"
+                                            data-price="{{ item.price }}">
+                                        Изменить
+                                    </button>
+                                </form>
+                            </div>
+                            <a href="{% url 'cart:cart_remove' product.vencode %}" class="card-link">Удалить</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-        {% endfor %}
-        <tr class="total">
-            <td>Общая сумма заказа</td>
-            <td colspan="4"></td>
-            <br/>
-            <td class="num">{{ cart.get_total_price }} руб. </td>
-        </tr>
+        {% endwith %}
+    {% endfor %}
 
-<a href="{% url "orders:order_create" %}" class="button">
-    Оформить заказ
-</a>
-        </tbody>
 
+
+    <div class="card text-right">
+      <div class="card-body">
+        <h5 class="card-title">Общая сумма заказа:</h5>
+        <p class="card-text">{{ cart.get_total_price }} руб.</p>
+        <a href="{% url 'orders:order_create' %}" class="btn btn-primary">Оформить заказ</a>
+      </div>
+    </div>
+
+{% endif %}
 
 {% endblock %}

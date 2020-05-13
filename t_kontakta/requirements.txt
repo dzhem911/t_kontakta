@@ -2,4 +2,7 @@ Django==3.0.2
 psycopg2-binary
 Pillow
 django-debug-toolbar
-django-crispy-forms
+django-bootstrap4
+django-filter
+celery
+flower

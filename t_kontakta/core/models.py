@@ -22,6 +22,12 @@ class Photo(models.Model):
     name = models.ForeignKey('Tires', on_delete=models.SET_NULL, null=True, related_name='photos_name')
     photo = models.ImageField(upload_to='media/')
 
+    """@property
+    def photo_url(self):
+        if self.photo and hasattr(self.photo, 'url'):
+            return self.photo.url"""
+
+
     class Meta:
         verbose_name = 'Фото'
         verbose_name_plural = 'Фото'
@@ -56,6 +62,6 @@ class Tires(models.Model):
     def __iter__(self):
         pass
 
-
     def get_absolute_url(self):
         return reverse('core:product_detail', args=[str(self.slug)])
+

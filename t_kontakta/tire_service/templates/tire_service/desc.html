@@ -1,0 +1,26 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Шиномонтаж{% endblock %}
+
+{% block content %}
+<h3 style="text-align: center;">Услуги шиномонтажа</h3>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Вид услуги</th>
+      <th scope="col">Описание</th>
+      <th scope="col">Цена</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for i in service %}
+    <tr>
+      <td scope="row">{{ i.service }}</td>
+      <td>{{ i.description }}</td>
+      <td>{{ i.price }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

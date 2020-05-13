@@ -2,7 +2,7 @@ version: '3'
 
 services:
   web:
-    image: dzhem911/tires_project_web_1 #./t_kontakta
+    build: ./t_kontakta #dzhem911/tires_project_web_1 #
     command: python3 manage.py runserver 0.0.0.0:8000
     volumes:
       - ./t_kontakta:/data

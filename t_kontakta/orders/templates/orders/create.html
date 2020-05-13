@@ -1,24 +1,24 @@
 {% extends "core/base.html" %}
+{% load bootstrap4 %}
 
-{% block title %}Checkout{% endblock %}
+{% block title %}Оформление заказа{% endblock %}
 
 {% block content %}
-    <h1>Checkout</h1>
-    <div class="order-info">
-        <h3>Your order</h3>
-        <ul>
-            {% for item in cart %}
-                <li>
-                    {{ item.quantity }}x {{ item.product.name }}
-                    <span>${{ item.total_price }}</span>
-                </li>
-            {% endfor %}
-        </ul>
-        <p>Total: ${{ cart.get_total_price }}</p>
-    </div>
-    <form action="." method="post" class="order-form">
-        {{ form.as_p }}
-        <p><input type="submit" value="Place order"></p>
+<h2 style="text-align: center; margin-top: 3px;" >Оформление заказа</h2>
+
+<div>
+    <form action="." method="post" class="form-group">
+        {% bootstrap_field form.first_name form_group_class="shadow p-3 mb-6 bg-white rounded" show_label=False %}
+        {% bootstrap_field form.last_name form_group_class="shadow p-3 mb-6 bg-white rounded" show_label=False %}
+        {% bootstrap_field form.phone_number form_group_class="shadow p-3 mb-6 bg-white rounded" placeholder="Номер телефона в формате +79999999999" show_label=False%}
+        {% bootstrap_field form.email form_group_class="shadow p-3 mb-6 bg-white rounded" show_label=False %}
+        {% bootstrap_field form.address form_group_class="shadow p-3 mb-6 bg-white rounded" show_label=False %}
+        {% bootstrap_field form.postal_code placeholder="Необязательно" form_group_class="shadow p-3 mb-6 bg-white rounded" show_label=False %}
+        {% bootstrap_field form.city form_group_class="shadow p-3 mb-5 bg-white rounded" show_label=False %}
+        <p style="text-align: center;"><input type="submit" class="btn btn-primary" value="Оформить"></p>
         {% csrf_token %}
     </form>
+</div>
+
+
 {% endblock %}

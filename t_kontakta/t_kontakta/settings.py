@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from django.utils.translation import gettext_noop
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -45,7 +46,9 @@ INSTALLED_APPS += [
     'cart.apps.CartConfig',
     'orders.apps.OrdersConfig',
     'debug_toolbar',
-    'crispy_forms'
+    'django_filters',
+    'bootstrap4',
+    'tire_service.apps.TireServiceConfig',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -62,6 +65,7 @@ MIDDLEWARE = [
 
 MIDDLEWARE += [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 ]
 
 ROOT_URLCONF = 't_kontakta.urls'
@@ -125,6 +129,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
+LANGUAGES = [
+    ('ru', gettext_noop('Russian')),
+]
+
 TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
@@ -137,14 +145,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/data/static/'
 
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, '/media/')
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, '/static/')
+    os.path.join(BASE_DIR, '/data/static/')
 ]
 
 CART_SESSION_ID = 'cart'

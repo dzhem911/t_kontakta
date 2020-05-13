@@ -1,16 +1,43 @@
 {% extends "core/base.html" %}
-
+{% load bootstrap4 %}
 {% block title %} {{ tires.producer }} - {{ tires.tire_model }} {% endblock %}
 
 {% block content %}
-{{ tires.producer }} - {{ tires.tire_model }}
-<br/>
-<p> Цена - {{ tires.price }} </p>
-Радуис - {{ tires.radius }}
+<div>
+    <h6>{{ tires.producer }} - {{ tires.tire_model }}</h6>
 
-<form action="{% url "cart:cart_add" tires.vencode %}" method="post" enctype="multipart/form-data">
-    {{ form }}
-    {% csrf_token %}
-    <input type="submit" value="Add to cart">
-</form>
+    <div id="carouselExampleControls{{ tires.vencode }}" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            {% for photo in tires.photos_name.all %}
+              <div class="carousel-item {% if forloop.first %} active {% endif %}">
+                <img src="{{ photo.photo.url }}" class="d-block w-100" alt="{{ product.tire_model }}">
+              </div>
+            {% endfor %}
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleControls{{ tires.vencode }}" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleControls{{ tires.vencode }}" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+            </a>
+    </div>
+
+    <p>
+        Радуис - {{ tires.radius }}<br>
+        Процент износа - {{ tires.status }}<br>
+        Ширина/профиль - {{ tires.weidth }}/{{ tires.profile }}<br>
+        {{ tires.seasone }}
+    </p>
+    <p>
+        Цена - {{ tires.price }}
+    </p>
+
+    <form action="{% url "cart:cart_add" tires.vencode %}" method="post" enctype="multipart/form-data">
+        {% bootstrap_form form %}
+        {% csrf_token %}
+        <input type="submit" value="Купить" class="btn btn-primary">
+    </form>
+</div>
 {% endblock %}
