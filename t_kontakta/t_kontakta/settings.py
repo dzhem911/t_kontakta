@@ -21,12 +21,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'ggw^v5s5zn!p!ua+q&akr59okw1*2@w+*e%2x#)^pgl3q&emfc'
+
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['http://www.tkontakta.ru/']
 
 INTERNAL_IPS = ['*']
 
@@ -49,6 +50,9 @@ INSTALLED_APPS += [
     'django_filters',
     'bootstrap4',
     'tire_service.apps.TireServiceConfig',
+    'about_us.apps.AboutUsConfig',
+    'our_contacts.apps.OurContactsConfig',
+    'tinymce',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -98,7 +102,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': 'password',
+        'PASSWORD': os.getenv('DB_KEY'), # 'password'
         'HOST': 'db',
         'PORT': '5432',
     }
@@ -147,12 +151,14 @@ USE_TZ = True
 
 STATIC_URL = '/data/static/'
 
-MEDIA_URL = '/media/'
+MEDIA_URL = '/data/media/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, '/media/')
+MEDIA_ROOT = os.path.join(BASE_DIR, '/data/media/')
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, '/data/static/')
 ]
 
 CART_SESSION_ID = 'cart'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

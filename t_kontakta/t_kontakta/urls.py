@@ -12,7 +12,9 @@ urlpatterns = [
     path('cart/', include('cart.urls')),
     path('orders/', include('orders.urls')),
     path('tire_service/', include('tire_service.urls')),
-
+    path('contacts/', include('our_contacts.urls')),
+    path('about_us/', include('about_us.urls')),
+    path('tinymce/', include('tinymce.urls'))
 ]
 
 if settings.DEBUG:

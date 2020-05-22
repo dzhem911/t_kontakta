@@ -1,4 +1,4 @@
- FROM python:3.8
+FROM python:3.8
 ENV PYTHONUNBEFFERED 1
 RUN mkdir /data
 WORKDIR /data

@@ -3,14 +3,14 @@
 {% block title %} {{ tires.producer }} - {{ tires.tire_model }} {% endblock %}
 
 {% block content %}
-<div>
-    <h6>{{ tires.producer }} - {{ tires.tire_model }}</h6>
+<div class="container">
+    <h4 style="margin-top: 3px;">{{ tires.producer }} - {{ tires.tire_model }}</h4>
 
     <div id="carouselExampleControls{{ tires.vencode }}" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
             {% for photo in tires.photos_name.all %}
               <div class="carousel-item {% if forloop.first %} active {% endif %}">
-                <img src="{{ photo.photo.url }}" class="d-block w-100" alt="{{ product.tire_model }}">
+                <img src="{{ photo.photo.url }}" class="img-fluid" alt="{{ product.tire_model }}">
               </div>
             {% endfor %}
         </div>

@@ -2,7 +2,7 @@ version: '3'
 
 services:
   web:
-    build: ./t_kontakta #dzhem911/tires_project_web_1 #
+    build: ./t_kontakta #dzhem911/tires_project_web_1
     command: python3 manage.py runserver 0.0.0.0:8000
     volumes:
       - ./t_kontakta:/data
@@ -10,6 +10,8 @@ services:
       - "8000:8000"
     depends_on:
       - db
+    links:
+      - rabbit
   db:
     image: dzhem911/tires_project_db_1 #postgres
     restart: always
@@ -17,4 +19,15 @@ services:
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=postgres
       - PGPASSWORD=password
+  rabbit:
+    hostname: rabbit
+    image: rabbitmq:3.8.3
+    restart: always
+    environment:
+      - RABBITMQ_DEFAULT_USER=dzhem911
+      - RABBITMQ_DEFAULT_PASS=vektor21
+      - RABBITMQ_DEFAULT_VHOST=/
+      - RABBITMQ_NODENAME=rabbit@localhost
+    ports:
+      - "5672:5672"
 

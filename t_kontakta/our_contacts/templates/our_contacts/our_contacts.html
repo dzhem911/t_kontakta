@@ -1,0 +1,21 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Контакты{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    {% autoescape off %}
+    {% for i in contacts %}
+        <h4 style="margin-top: 5px;">{{ i.title }}</h4>
+        <p>{{ i.description }}</p>
+    {% endfor %}
+    {% endautoescape %}
+
+    <div class="embed-responsive embed-responsive-16by9">
+        <a href="https://yandex.ru/maps/org/tks_shinomontazh/187957587979/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:0px;">ТКС Шиномонтаж</a>
+        <iframe class="embed-responsive-item" src="https://yandex.ru/map-widget/v1/-/CCQQa-W9SC" allowfullscreen ></iframe>
+    </div>
+</div>
+{% endblock %}
