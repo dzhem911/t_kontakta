@@ -3,3 +3,7 @@ t_kontakta.rar
 Dockerrun.aws.json
 database.sql
 postgres
+*.pyc
+*~
+__pycache__
+Dockerfile

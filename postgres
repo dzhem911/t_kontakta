@@ -1,2 +1,0 @@
-Password: 
-pg_dump: error: connection to database "database.sql" failed: FATAL:  database "database.sql" does not exist
